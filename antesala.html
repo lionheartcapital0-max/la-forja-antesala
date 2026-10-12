@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LA ANTESALA — La Forja</title>
+<style>
+  :root{
+    --bg:#0a0a0a; --panel:#141414; --line:#2a2a2a;
+    --orange:#ff6b1a; --orange-soft:#ff8c4a; --text:#f2f2f2; --muted:#9a9a9a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px}
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  .kicker{color:var(--orange);text-transform:uppercase;letter-spacing:3px;font-size:12px;font-weight:700;margin-bottom:12px}
+  h1{font-size:44px;line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
+  h1 .flame{color:var(--orange)}
+  h2{font-size:28px;letter-spacing:-.5px;margin-bottom:16px}
+  p{color:var(--muted);margin-bottom:14px;font-size:16px}
+  p strong{color:var(--text)}
+  .hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;bottom:-120px;left:50%;transform:translateX(-50%);width:420px;height:420px;background:radial-gradient(circle,rgba(255,107,26,.22),transparent 70%);pointer-events:none}
+  .hero .kicker{font-size:13px}
+  .hero p.lead{font-size:19px;color:var(--text);max-width:520px}
+  .hero .wrap{text-align:center}
+  .hero p.lead{margin-left:auto;margin-right:auto}
+  .cover{width:100%;max-width:400px;border-radius:14px;margin:6px 0 26px;box-shadow:0 24px 70px rgba(0,0,0,.65);border:1px solid var(--line)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .cta{display:inline-block;background:var(--orange);color:#0a0a0a;font-weight:800;text-decoration:none;padding:16px 32px;border-radius:10px;font-size:17px;margin-top:18px;letter-spacing:.3px}
+  .cta.ghost{background:transparent;color:var(--orange);border:2px solid var(--orange);margin-left:10px}
+  .acts{display:grid;gap:12px;margin-top:24px}
+  .act{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;position:relative}
+  .act .num{color:var(--orange);font-weight:800;font-size:13px;letter-spacing:2px}
+  .act h3{font-size:20px;margin:6px 0}
+  .act p{font-size:15px;margin:0}
+  .act.active{border-color:var(--orange)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:#2a1a0e;color:var(--orange-soft);border:1px dashed var(--orange);border-radius:6px;padding:4px 10px;margin-bottom:10px}
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;margin-top:22px}
+  .timer{font-size:56px;font-weight:800;color:var(--orange);text-align:center;font-variant-numeric:tabular-nums;margin:10px 0}
+  .timer.done{color:#e5484d}
+  input[type=text],textarea{width:100%;background:#0a0a0a;border:1px solid var(--line);border-radius:8px;color:var(--text);padding:14px;font-size:16px;margin:10px 0;font-family:inherit}
+  input:disabled,textarea:disabled{opacity:.45}
+  button{font-family:inherit}
+  .btn{background:var(--orange);color:#0a0a0a;font-weight:800;border:none;border-radius:10px;padding:14px 26px;font-size:16px;cursor:pointer;width:100%}
+  .btn:disabled{opacity:.4;cursor:default}
+  .btn.ghost{background:transparent;color:var(--orange);border:2px solid var(--orange)}
+  .result{text-align:center;padding:14px 0}
+  .result .verdict{font-size:22px;font-weight:800;margin-bottom:8px}
+  .quiz-q{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px}
+  .quiz-q h3{font-size:17px;margin-bottom:12px}
+  .opt{display:block;width:100%;text-align:left;background:#0a0a0a;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:12px 14px;margin-bottom:8px;font-size:15px;cursor:pointer}
+  .opt.sel{border-color:var(--orange);background:#1d1208}
+  .price-card{background:linear-gradient(180deg,#161006,#0a0a0a);border:1px solid var(--orange);border-radius:16px;padding:32px 26px;text-align:center;margin-top:22px}
+  .price-card .amount{font-size:52px;font-weight:800;color:var(--orange)}
+  .price-card ul{list-style:none;margin:20px 0;text-align:left}
+  .price-card li{padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--text)}
+  .price-card li::before{content:"▸ ";color:var(--orange);font-weight:800}
+  .faq{border-bottom:1px solid var(--line);padding:16px 0}
+  .faq button{background:none;border:none;color:var(--text);font-size:16px;font-weight:700;text-align:left;width:100%;cursor:pointer;padding:0}
+  .faq .a{display:none;color:var(--muted);font-size:15px;margin-top:10px}
+  .faq.open .a{display:block}
+  footer{padding:40px 0;text-align:center;color:var(--muted);font-size:13px}
+  .note{font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:12px 14px;margin-top:18px}
+  .crossroads{background:var(--panel);border:1px solid var(--orange);border-radius:14px;padding:28px 24px;margin-top:28px;display:none}
+  .crossroads h3{font-size:21px;margin-bottom:14px;color:var(--orange)}
+  .choice-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .btn.muted{background:transparent;color:var(--muted);border:2px solid var(--line)}
+  .commit{display:none;margin-top:22px}
+  .sealed{display:none;text-align:center;padding:18px 0}
+  .sealed .verdict{font-size:24px;font-weight:800;color:var(--orange);margin-bottom:8px;letter-spacing:2px}
+  .dismissed{display:none;text-align:center;padding:18px 0;color:var(--muted)}
+  .quiz-q .n{color:var(--orange);font-weight:800;font-size:12px;letter-spacing:2px}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">La Forja presenta</div>
+    <img class="cover" src="portada-antesala.png" alt="Portada de La Antesala: antesala de piedra oscura con la forja encendida al fondo">
+    <h1 class="sr-only">LA ANTESALA</h1>
+    <p class="lead">En Cuba vamos a volver a hacer el trabajo duro algo <strong>sexy</strong>. Antes de entrar a la forja, se pasa por la antesala: el lugar donde decides si estás hecho de ese material.</p>
+    <div>
+      <a class="cta" href="#prueba">Probar la antesala</a>
+      <a class="cta ghost" href="#suscripcion">Suscribirme</a>
+    </div>
+  </div>
+</div>
+
+<!-- LOS TRES ACTOS -->
+<section>
+  <div class="wrap">
+    <div class="kicker">El camino</div>
+    <h2>Tres actos. Un solo estándar.</h2>
+    <div class="acts">
+      <div class="act active">
+        <div class="num">ACTO I — AQUÍ ESTÁS</div>
+        <h3>La Antesala</h3>
+        <p>Disciplina diaria medible, desde tu teléfono. El estándar se cumple o no se cumple — no hay casi. Si aguantas la antesala, estás listo para la forja.</p>
+      </div>
+      <div class="act">
+        <div class="num">ACTO II</div>
+        <h3>La Forja</h3>
+        <p>Formación de carácter con mentores. Pruebas diarias, sesiones presenciales, un grupo que no te deja esconderte.</p>
+      </div>
+      <div class="act">
+        <div class="num">ACTO III</div>
+        <h3>El Salido</h3>
+        <p>El que entra por una puerta y sale por otra. Su testimonio es la prueba de que el método funciona.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRUEBA INTERACTIVA: 60 SEGUNDOS -->
+<section id="prueba">
+  <div class="wrap">
+    <div class="kicker">Pruébalo ahora</div>
+    <h2>La prueba de los 60 segundos</h2>
+    <p>Así se siente la antesala. Tienes <strong>60 segundos</strong> para escribir tu compromiso de hoy. Cuando el cronómetro llegue a cero, se bloquea: <strong>lo que hay es lo que va.</strong></p>
+    <div class="demo">
+      <div class="timer" id="timer">1:00</div>
+      <textarea id="commit" rows="3" placeholder="Escribe aquí tu compromiso de hoy. Concreto y medible. Ej: 'Levantarme a las 5:30 y leer 20 páginas.'" disabled></textarea>
+      <button class="btn" id="startBtn">Empezar la prueba</button>
+      <div class="result" id="demoResult" style="display:none">
+        <div class="verdict" id="demoVerdict"></div>
+        <p id="demoText" style="margin:0"></p>
+      </div>
+    </div>
+    <div class="note">Esto es una muestra del mecanismo real: en la antesala, cada día trae su prueba y su cronómetro. Sin excusas, sin edición.</div>
+  </div>
+</section>
+
+<!-- QUIZ: ¿ERES COMO TODOS LOS DEMÁS? (v2 — adaptado del episodio "15 Signs You Are Just Like Everyone Else", Alux) -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Autodiagnóstico</div>
+    <h2>¿Eres como todos los demás?</h2>
+    <p>Seis preguntas. Marca la que sea <strong>verdad</strong>, no la que suene bien. Esto no lo ve nadie más que tú — <strong>mentirte aquí ya es la primera señal.</strong></p>
+    <div id="quiz">
+      <div class="quiz-q" data-q="0">
+        <div class="n">1 / 6</div>
+        <h3>¿Quién decide tu horario?</h3>
+        <button class="opt" data-v="2">Yo. De punta a punta.</button>
+        <button class="opt" data-v="1">Mitad yo, mitad las circunstancias.</button>
+        <button class="opt" data-v="0">Otro: el trabajo, la casa, la cola.</button>
+      </div>
+      <div class="quiz-q" data-q="1">
+        <div class="n">2 / 6</div>
+        <h3>¿Para qué vives de lunes a viernes?</h3>
+        <button class="opt" data-v="2">Para avanzar en lo mío.</button>
+        <button class="opt" data-v="1">Un poco de las dos.</button>
+        <button class="opt" data-v="0">Para sobrevivir hasta el fin de semana.</button>
+      </div>
+      <div class="quiz-q" data-q="2">
+        <div class="n">3 / 6</div>
+        <h3>¿Cuándo fue la última vez que hiciste algo difícil a propósito?</h3>
+        <button class="opt" data-v="2">Esta semana.</button>
+        <button class="opt" data-v="1">Este mes.</button>
+        <button class="opt" data-v="0">No lo recuerdo.</button>
+      </div>
+      <div class="quiz-q" data-q="3">
+        <div class="n">4 / 6</div>
+        <h3>Cuando algo te sale mal, ¿de quién es la culpa?</h3>
+        <button class="opt" data-v="2">Mía. Me ocupo de lo que puedo cambiar.</button>
+        <button class="opt" data-v="1">Depende del caso.</button>
+        <button class="opt" data-v="0">Del gobierno, del jefe, de la mala suerte.</button>
+      </div>
+      <div class="quiz-q" data-q="4">
+        <div class="n">5 / 6</div>
+        <h3>¿Qué haces con tus horas libres?</h3>
+        <button class="opt" data-v="2">Las invierto en hacerme mejor.</button>
+        <button class="opt" data-v="1">Mitad y mitad.</button>
+        <button class="opt" data-v="0">Consumo: series, scroll, el paquete.</button>
+      </div>
+      <div class="quiz-q" data-q="5">
+        <div class="n">6 / 6</div>
+        <h3>Termina la frase con la verdad: «Yo soy alguien que…»</h3>
+        <button class="opt" data-v="2">cumple lo que se propone.</button>
+        <button class="opt" data-v="1">tiene potencial.</button>
+        <button class="opt" data-v="0">ya aceptó que esto es lo que hay.</button>
+      </div>
+    </div>
+    <div class="result" id="quizResult" style="display:none">
+      <div class="verdict" id="quizVerdict"></div>
+      <p id="quizText" style="margin-bottom:8px"></p>
+      <div id="weakCard" style="display:none;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--orange);border-radius:8px;padding:16px 18px;margin-top:16px;text-align:left">
+        <div style="color:var(--orange);font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:6px">TU PUNTO MÁS DÉBIL</div>
+        <p id="weakText" style="margin:0;font-size:15px"></p>
+      </div>
+    </div>
+    <div class="crossroads" id="crossroads">
+      <h3>La encrucijada</h3>
+      <p>Millones de personas cambiarían su vida por la tuya sin pensarlo. Tú la estás dejando pasar en automático.</p>
+      <p>Imagina esto: te despiertas en una encrucijada. Dos caminos.</p>
+      <p>Uno sigue recto al <strong>vacío</strong>: todo igual hasta el final. El mismo horario, el mismo fin de semana, el mismo «ya acepté que esto es lo que hay».</p>
+      <p>El otro te devuelve a <strong>este exacto momento</strong>. Sin recuerdos del futuro. Con una sola diferencia: sabes que esta es tu <strong>segunda oportunidad</strong>.</p>
+      <p><strong>¿Cuál tomas?</strong></p>
+      <div class="choice-row">
+        <button class="btn muted" id="stayBtn">Sigo igual</button>
+        <button class="btn" id="againBtn">Mi segunda oportunidad</button>
+      </div>
+      <div class="dismissed" id="dismissed">
+        <p style="margin:0">Honesto. La antesala no es para ti hoy.<br>Cuando el vacío te aburra, la puerta sigue aquí.</p>
+      </div>
+      <div class="commit" id="commit">
+        <p style="text-align:center"><strong>Entonces séllalo.</strong> Una palabra, escríbela tú — el compromiso no se delega:</p>
+        <input type="text" id="wordInput" placeholder="ESCRÍBELA AQUÍ" autocomplete="off" style="text-transform:uppercase;letter-spacing:2px;text-align:center;font-weight:700">
+        <button class="btn" id="sealBtn" style="width:100%">Sellar</button>
+        <p id="wordHint" style="text-align:center;font-size:13px;display:none">Esa no es la palabra. Es <strong>OTRA VEZ</strong> — escríbela tú.</p>
+      </div>
+      <div class="sealed" id="sealed">
+        <div class="verdict">SELLADO.</div>
+        <p>Mañana a esta hora la pregunta será una sola: ¿lo cumpliste? Y te repregunto una de estas seis — lo que se repite se queda.<br>Así empieza la antesala.</p>
+        <a class="cta" href="https://wa.me/529994931090?text=Quiero%20entrar%20a%20LA%20ANTESALA">Entrar a la antesala</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Prueba, no promesa</div>
+    <h2>Los salidos hablan</h2>
+    <p>Aquí van los testimonios de quienes pasaron por la forja — y de quienes están ahora mismo en la antesala, decidiendo entrar. <strong>Historias reales, nombres reales.</strong></p>
+    <div class="note"><span class="badge">Pendiente</span><br>Espacio reservado para los primeros testimonios en video y texto. Nada se publica sin la revisión y aprobación de cada protagonista.</div>
+  </div>
+</section>
+
+<!-- SUSCRIPCIÓN -->
+<section id="suscripcion">
+  <div class="wrap">
+    <div class="kicker">Suscripción</div>
+    <h2>Entra a la antesala</h2>
+    <div class="price-card">
+      <div><span class="badge">Precio por definir</span></div>
+      <div class="amount">USD —/mes</div>
+      <p style="margin:8px 0 0">Sin permanencia. El estándar es diario; el compromiso también.</p>
+      <ul>
+        <!-- BORRADOR — richard define el contenido final de la suscripción -->
+        <li>Prueba diaria con cronómetro y estándar medible</li>
+        <li>Seguimiento de tu racha de disciplina</li>
+        <li>Acceso a la comunidad de la antesala</li>
+        <li>Puerta directa a La Forja cuando estés listo</li>
+      </ul>
+      <a class="cta" href="https://wa.me/529994931090?text=Quiero%20entrar%20a%20LA%20ANTESALA" style="margin-left:0">Quiero entrar</a>
+      <div class="note" style="text-align:left"><span class="badge">Borrador</span><br>Contenido y precio de la suscripción pendientes de definición por richard. La lista de arriba es una propuesta, no la oferta final.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Preguntas</div>
+    <h2>Lo que todos preguntan</h2>
+    <div class="faq">
+      <button>¿La antesala es lo mismo que La Forja?</button>
+      <div class="a">No. La antesala es la puerta: disciplina diaria medible desde tu teléfono. La Forja es la formación completa, con mentores y sesiones presenciales. La antesala te prepara para entrar.</div>
+    </div>
+    <div class="faq">
+      <button>¿Necesito experiencia previa?</button>
+      <div class="a">No. Necesitas honestidad. El primer estándar de la antesala es decir la verdad sobre dónde estás hoy — el autodiagnóstico de arriba es el primer paso.</div>
+    </div>
+    <div class="faq">
+      <button>¿Qué pasa si un día no cumplo la prueba?</button>
+      <div class="a">Se registra. La antesala no castiga el fallo: lo mide. Lo que no se mide no se mejora, y lo que se esconde no se forja.</div>
+    </div>
+    <div class="faq">
+      <button>¿Puedo cancelar cuando quiera?</button>
+      <div class="a">Sí. Sin permanencia y sin preguntas incómodas. El que se queda es porque el estándar le sirve, no porque un contrato lo ate.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    LA FORJA — El trabajo duro vuelve a ser sexy.<br>
+    <span style="font-size:12px">© 2026 La Forja</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // FAQ accordion
+  document.querySelectorAll('.faq button').forEach(function(b){
+    b.addEventListener('click', function(){ b.parentElement.classList.toggle('open'); });
+  });
+
+  // 60-second demo
+  var timerEl = document.getElementById('timer'),
+      commitEl = document.getElementById('commit'),
+      startBtn = document.getElementById('startBtn'),
+      demoResult = document.getElementById('demoResult'),
+      demoVerdict = document.getElementById('demoVerdict'),
+      demoText = document.getElementById('demoText'),
+      remaining = 60, iv = null;
+
+  function fmt(s){ return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); }
+
+  startBtn.addEventListener('click', function(){
+    startBtn.disabled = true;
+    commitEl.disabled = false;
+    commitEl.focus();
+    demoResult.style.display = 'none';
+    remaining = 60;
+    timerEl.textContent = fmt(remaining);
+    timerEl.classList.remove('done');
+    iv = setInterval(function(){
+      remaining--;
+      timerEl.textContent = fmt(remaining);
+      if(remaining <= 10) timerEl.classList.add('done');
+      if(remaining <= 0){
+        clearInterval(iv);
+        commitEl.disabled = true;
+        startBtn.disabled = false;
+        startBtn.textContent = 'Repetir la prueba';
+        var v = commitEl.value.trim();
+        demoResult.style.display = 'block';
+        if(v.length > 0){
+          demoVerdict.textContent = 'COMPROMISO REGISTRADO.';
+          demoVerdict.style.color = 'var(--orange)';
+          demoText.textContent = 'Mañana a esta hora, la pregunta será una sola: ¿lo cumpliste? Así empieza la antesala.';
+        } else {
+          demoVerdict.textContent = 'TIEMPO.';
+          demoVerdict.style.color = '#e5484d';
+          demoText.textContent = 'Lo que hay es lo que va. En la antesala, el cronómetro no espera — y esa es exactamente la lección.';
+        }
+        commitEl.value = '';
+      }
+    }, 1000);
+  });
+
+  // Quiz v2 — autodiagnóstico adaptado (6 preguntas + punto débil + encrucijada + sello)
+  var NQ = 6;
+  var scores = new Array(NQ).fill(null);
+  var lessons = [
+    "Tu horario lo decide otro. Esta semana reclama 30 minutos diarios que sean solo tuyos — misma hora, todos los días. Lo que no tiene hora no existe.",
+    "Vives para el fin de semana. Elige una cosa que avanzarás de lunes a viernes, 20 minutos al día. El fin de semana es el premio, no la vida.",
+    "Hace rato no haces nada difícil a propósito. Hoy: una cosa incómoda y pequeña. La disciplina es un músculo — hoy toca la primera repetición.",
+    "Mientras la culpa sea de otros, la solución también. Elige una cosa que sí puedes cambiar esta semana y atácala. Lo demás es ruido.",
+    "Tus horas libres te consumen a ti. Esta semana: cambia 30 minutos de consumo por 30 de construcción. Uno por uno.",
+    "Tu frase sobre ti mismo es la más floja de las seis. Cámbiala esta semana con una prueba: algo pequeño, medible y cumplido. El potencial sin prueba es un rumor."
+  ];
+  document.querySelectorAll('.quiz-q').forEach(function(q){
+    var qi = parseInt(q.getAttribute('data-q'), 10);
+    q.querySelectorAll('.opt').forEach(function(o){
+      o.addEventListener('click', function(){
+        q.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); });
+        o.classList.add('sel');
+        scores[qi] = parseInt(o.getAttribute('data-v'), 10);
+        if(scores.every(function(s){ return s !== null; })){
+          var total = scores.reduce(function(a,b){ return a+b; }, 0);
+          var r = document.getElementById('quizResult'),
+              v = document.getElementById('quizVerdict'),
+              t = document.getElementById('quizText');
+          r.style.display = 'block';
+          if(total >= 9){
+            v.textContent = 'NO ERES COMO LOS DEMÁS.';
+            v.style.color = 'var(--orange)';
+            t.textContent = 'Ya vives con estándar. La antesala te da el sistema para sostenerlo — y la puerta a La Forja.';
+          } else if(total >= 5){
+            v.textContent = 'ESTÁS EN LA PUERTA.';
+            v.style.color = 'var(--orange-soft)';
+            t.textContent = 'Tienes la materia prima. La antesala existe justo para el que decide hoy.';
+          } else {
+            v.textContent = 'LA VERDAD YA EMPEZÓ.';
+            v.style.color = 'var(--text)';
+            t.textContent = 'Ser honesto aquí fue tu primera prueba — y la pasaste. El resto se aprende un día a la vez.';
+          }
+          var wi = 0, i;
+          for(i = 1; i < NQ; i++){ if(scores[i] < scores[wi]) wi = i; }
+          document.getElementById('weakText').textContent = lessons[wi];
+          document.getElementById('weakCard').style.display = 'block';
+          var c = document.getElementById('crossroads');
+          c.style.display = 'block';
+          c.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+  });
+
+  document.getElementById('stayBtn').addEventListener('click', function(){
+    document.getElementById('dismissed').style.display = 'block';
+    document.getElementById('commit').style.display = 'none';
+    document.getElementById('sealed').style.display = 'none';
+  });
+  document.getElementById('againBtn').addEventListener('click', function(){
+    document.getElementById('commit').style.display = 'block';
+    document.getElementById('dismissed').style.display = 'none';
+    document.getElementById('wordInput').focus();
+  });
+  function sealWord(){
+    var w = document.getElementById('wordInput').value.trim().toLowerCase();
+    if(w === 'otra vez'){
+      document.getElementById('sealed').style.display = 'block';
+      document.getElementById('commit').style.display = 'none';
+      document.getElementById('wordHint').style.display = 'none';
+      document.getElementById('sealed').scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      document.getElementById('wordHint').style.display = 'block';
+    }
+  }
+  document.getElementById('sealBtn').addEventListener('click', sealWord);
+  document.getElementById('wordInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') sealWord();
+  });
+
+  // Smooth scroll for anchors
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.querySelector(a.getAttribute('href'));
+      if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
