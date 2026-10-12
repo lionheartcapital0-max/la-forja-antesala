@@ -205,7 +205,7 @@
       <div class="dismissed" id="dismissed">
         <p style="margin:0">Honesto. La antesala no es para ti hoy.<br>Cuando el vacío te aburra, la puerta sigue aquí.</p>
       </div>
-      <div class="commit" id="commit">
+      <div class="commit" id="sealCommit">
         <p style="text-align:center"><strong>Entonces séllalo.</strong> Una palabra, escríbela tú — el compromiso no se delega:</p>
         <input type="text" id="wordInput" placeholder="ESCRÍBELA AQUÍ" autocomplete="off" style="text-transform:uppercase;letter-spacing:2px;text-align:center;font-weight:700">
         <button class="btn" id="sealBtn" style="width:100%">Sellar</button>
@@ -385,11 +385,11 @@
 
   document.getElementById('stayBtn').addEventListener('click', function(){
     document.getElementById('dismissed').style.display = 'block';
-    document.getElementById('commit').style.display = 'none';
+    document.getElementById('sealCommit').style.display = 'none';
     document.getElementById('sealed').style.display = 'none';
   });
   document.getElementById('againBtn').addEventListener('click', function(){
-    document.getElementById('commit').style.display = 'block';
+    document.getElementById('sealCommit').style.display = 'block';
     document.getElementById('dismissed').style.display = 'none';
     document.getElementById('wordInput').focus();
   });
@@ -397,7 +397,7 @@
     var w = document.getElementById('wordInput').value.trim().toLowerCase();
     if(w === 'otra vez'){
       document.getElementById('sealed').style.display = 'block';
-      document.getElementById('commit').style.display = 'none';
+      document.getElementById('sealCommit').style.display = 'none';
       document.getElementById('wordHint').style.display = 'none';
       document.getElementById('sealed').scrollIntoView({behavior:'smooth', block:'center'});
     } else {
